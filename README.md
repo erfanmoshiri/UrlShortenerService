@@ -10,6 +10,7 @@ then use the commands blow in project's main directory to run the application:
 ### clone the project
 ```bash
 git clone https://github.com/erfanmoshiri/UrlShortenerService
+cd UrlShortenerService
 ```
 ### redis
 install redis on your docker container using the command blow (using docker)
