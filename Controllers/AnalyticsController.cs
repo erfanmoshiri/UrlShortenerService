@@ -23,14 +23,12 @@ namespace UrlService.Controllers
         private readonly UrlServiceDbContext _dbContext;
         private readonly IConfiguration _configuration;
         private readonly ICacheService _cacheService;
-        private readonly IAnalyticsRecordSaver _analyticsRecordSaver;
 
-        public AnalyticsController(UrlServiceDbContext context, IConfiguration configuration, ICacheService cacheService, IAnalyticsRecordSaver analyticsRecordSaver)
+        public AnalyticsController(UrlServiceDbContext context, IConfiguration configuration, ICacheService cacheService)
         {
             _dbContext = context;
             this._configuration = configuration;
             _cacheService = cacheService;
-            _analyticsRecordSaver = analyticsRecordSaver;
         }
 
         [HttpGet("me/{id}")]

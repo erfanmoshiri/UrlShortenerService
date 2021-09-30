@@ -24,14 +24,4 @@ namespace UrlService
                 });
     }
 
-
-
-
-    // public class test
-    // {
-    //     public static void Main(string[] args)
-    //     {
-
-    //     }
-    // }
 }

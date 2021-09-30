@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Book.Api.Channels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,14 +22,14 @@ namespace UrlService.Controllers
         private readonly UrlServiceDbContext _dbContext;
         private readonly IConfiguration _configuration;
         private readonly ICacheService _cacheService;
-        private readonly IAnalyticsRecordSaver _analyticsRecordSaver;
+        private readonly IRecordChannel _recordChannel;
 
-        public UrlController(UrlServiceDbContext context, IConfiguration configuration, ICacheService cacheService, IAnalyticsRecordSaver analyticsRecordSaver)
+        public UrlController(UrlServiceDbContext context, IConfiguration configuration, ICacheService cacheService, IRecordChannel recordChannel)
         {
             _dbContext = context;
             this._configuration = configuration;
             _cacheService = cacheService;
-            _analyticsRecordSaver = analyticsRecordSaver;
+            this._recordChannel = recordChannel;
         }
 
         [HttpPost]
@@ -106,10 +107,11 @@ namespace UrlService.Controllers
         }
 
         [HttpGet("r/{path}")]
-        [Authorize]
+        // [Authorize]
         public async Task<ActionResult<ServiceResult>> RedirectTo([FromRoute] string path)
         {
-            var userId = IUser.Id;
+            // var userId = IUser.Id;
+            var userId = "821f5f83-17ff-4fef-92c6-01f3050a3f29";
             if (string.IsNullOrEmpty(path))
                 return BadRequest(new ServiceResult("incorrect url"));
             string mainUrl;
@@ -136,7 +138,7 @@ namespace UrlService.Controllers
             var browser = Request.Headers["User-Agent"].ToString();
             var isMobile = browser.ToLower().Contains("mobi");
 
-            var v = new WriteRecordDto
+            var record = new WriteRecordDto
             {
                 IsMobile = isMobile,
                 Browser = browser,
@@ -144,7 +146,8 @@ namespace UrlService.Controllers
                 MainUrl = mainUrl,
                 Path = path
             };
-            await _analyticsRecordSaver.WriteRecord(v);
+            // await _analyticsRecordSaver.WriteRecord(record); 
+            await _recordChannel.WriteAsync(record);
             return Redirect("https://www.google.com");
         }
 

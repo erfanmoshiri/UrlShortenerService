@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Book.Api.Channels;
 using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,19 +46,16 @@ namespace UrlService
 
             services.AddDbContext<UrlServiceDbContext>(options =>
             {
-
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             }
                 );
             // var t = Configuration.GetConnectionString("DefaultConnection");
 
 
-            services.AddControllers();
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<UrlServiceDbContext>();
 
-            services.AddScoped<IAnalyticsRecordSaver, AnalyticsRecordSaver>();
 
             services.AddAuthentication(auth =>
             {
@@ -77,7 +75,10 @@ namespace UrlService
                 };
             });
 
+            services.AddSingleton<IRecordChannel, RecordChannel>();
             services.AddSwaggerGen();
+
+            services.AddControllers();
             ConfigureHangFire(services);
         }
 
@@ -147,7 +148,7 @@ namespace UrlService
             var nextFixedHour = ((DateTime.Now.Hour) % 24) + 1;
             RecurringJob.AddOrUpdate<Services.BackgroundService>((data) =>
                 data.CollectAndClean(),
-                // $"0 0 0/{Configuration.GetValue<int>("BackgroundServiceTimeSpanInHour")} * * *");
+            // $"0 0 0/{Configuration.GetValue<int>("BackgroundServiceTimeSpanInHour")} * * *");
             "*/" + Configuration.GetValue<int>("BackgroundServiceTimeSpanInHour") + " * * * *");
 
             RecurringJob.AddOrUpdate<Services.BackgroundService>((data) =>
