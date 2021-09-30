@@ -4,6 +4,7 @@ provided Api service collection is a URL management and customizable service in 
 
 ## Installation
 To run this project you need .net5 installed on your device
+
 then use the commands blow in project's main directory to run the application:
 
 ### clone the project
@@ -11,7 +12,7 @@ then use the commands blow in project's main directory to run the application:
 git clone https://github.com/erfanmoshiri/UrlShortenerService
 ```
 ### redis
-install redis on your docker container using the command blow
+install redis on your docker container using the command blow (using docker)
 ```bash
 docker-compose -f .\docker-compose.yaml up
 ```
@@ -23,16 +24,15 @@ dotnet run
 it will be run on port 5001
 
 ## swagger
-you can access a list documents to the APIs using the address below
+you can access a list documentations to the APIs and test them using the address below
 ```
 https://localhost:5001/swagger
 ```
 ###
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcomed. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+@erfanmoshiri
