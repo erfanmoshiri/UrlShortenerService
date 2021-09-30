@@ -51,7 +51,7 @@ namespace UrlService.Infrastructure
 
     public interface ITokenResult
     {
-
+        string Token { get; }
     }
 
     public class TokenResult : ITokenResult
@@ -60,9 +60,9 @@ namespace UrlService.Infrastructure
         {
             this.Token = token;
             this.ExpireDate = expireDate;
-
         }
-        public string Token { get; set; }
+
         public DateTime ExpireDate { get; set; }
+        public string Token { get; set; }
     }
 }

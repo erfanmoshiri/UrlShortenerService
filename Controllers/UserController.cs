@@ -12,7 +12,6 @@ using UrlService.Models;
 namespace UrlService.Controllers
 {
     [ApiController]
-    // [Route("[action]")]
     public class UserController : BaseController
     {
         private readonly UrlServiceDbContext _context;

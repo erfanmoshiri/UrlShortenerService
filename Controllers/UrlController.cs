@@ -107,11 +107,10 @@ namespace UrlService.Controllers
         }
 
         [HttpGet("r/{path}")]
-        // [Authorize]
+        [Authorize]
         public async Task<ActionResult<ServiceResult>> RedirectTo([FromRoute] string path)
         {
-            // var userId = IUser.Id;
-            var userId = "821f5f83-17ff-4fef-92c6-01f3050a3f29";
+            var userId = IUser.Id;
             if (string.IsNullOrEmpty(path))
                 return BadRequest(new ServiceResult("incorrect url"));
             string mainUrl;
@@ -146,17 +145,14 @@ namespace UrlService.Controllers
                 MainUrl = mainUrl,
                 Path = path
             };
-            // await _analyticsRecordSaver.WriteRecord(record); 
             await _recordChannel.WriteAsync(record);
-            return Redirect("https://www.google.com");
+            return Redirect(mainUrl);
         }
 
 
 
 
-
         public static string UrlGenerator(string path) => $"https://localhost:5001/r/{path}";
-        public static string KeyGenerator<T>(T o) => JsonConvert.SerializeObject(o);
         public static string RandomGenerator()
         {
             Random rnd = new Random();
